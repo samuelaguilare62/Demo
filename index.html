@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrapSán Administración Condominal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+    :root {
+        --primary-color: #2C5530;
+        --secondary-color: #4A7C59;
+        --accent-color: #7FB069;
+        --light-green: #D6EAD0;
+        --dark-green: #1B3A1F;
+        --orange: #FF8500;
+        --light-orange: #FFB366;
+        --white: #FFFFFF;
+        --light-gray: #F8F9FA;
+        --medium-gray: #6C757D;
+        --dark-gray: #343A40;
+        --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+        --gradient-accent: linear-gradient(45deg, var(--orange), var(--light-orange));
+        --shadow-light: 0 4px 20px rgba(44, 85, 48, 0.1);
+        --shadow-medium: 0 8px 30px rgba(44, 85, 48, 0.15);
+        --shadow-heavy: 0 15px 40px rgba(44, 85, 48, 0.2);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.7;
+        color: var(--dark-gray);
+        overflow-x: hidden;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+        background: rgba(44, 85, 48, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+    
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+    
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--gradient-accent);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-light);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .logo-icon::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('https://imagedelivery.net/xaKlCos5cTg_1RWzIu_h-A/d3b973c3-1eec-48d5-2a37-a270b60cfd00/public');
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    
+    .logo-text {
+        color: var(--white);
+    }
+    
+    .logo-text .brand-name {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+    
+    .logo-text .brand-subtitle {
+        font-size: 0.8rem;
+        opacity: 0.9;
+        font-weight: 400;
+        margin-top: -2px;
+    }
+    
+    /* Navegación */
+    .nav-container {
+        position: relative;
+    }
+    
+    nav ul {
+        list-style: none;
+        display: flex;
+        gap: 0;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        padding: 8px;
+        backdrop-filter: blur(10px);
+        margin: 0;
+    }
+    
+    nav li {
+        position: relative;
+    }
+    
+    nav a {
+        color: var(--white);
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        position: relative;
+        display: block;
+    }
+    
+    nav a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+        color: var(--light-green);
+    }
+    
+    nav a.active {
+        background: var(--gradient-accent);
+        color: var(--white);
+        box-shadow: 0 4px 15px rgba(255, 133, 0, 0.3);
+    }
+    
+    /* Mobile menu button */
+    .mobile-menu-btn {
+        display: none;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--white);
+        font-size: 1.2rem;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1001;
+    }
+    
+    .mobile-menu-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Hero Section */
+    .hero {
+        background: var(--gradient-primary);
+        color: var(--white);
+        text-align: center;
+        padding: 140px 0 100px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+        animation: float 15s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+            transform: translateY(-5px) rotate(1deg);
+        }
+        50% {
+            transform: translateY(-10px) rotate(0deg);
+        }
+        75% {
+            transform: translateY(-5px) rotate(-1deg);
+        }
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero h1 {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        font-weight: 700;
+        letter-spacing: -1px;
+    }
+    
+    .hero .tagline {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.95;
+        font-weight: 300;
+    }
+    
+    .hero .subtitle {
+        font-size: 1.6rem;
+        margin-bottom: 2.5rem;
+        font-weight: 400;
+        color: var(--light-green);
+    }
+    
+    .company-logo {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 1rem 2rem;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
+        margin: 2rem 0;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: var(--shadow-light);
+    }
+    
+    .company-logo-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--gradient-accent);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .company-logo-icon::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('https://imagedelivery.net/xaKlCos5cTg_1RWzIu_h-A/d3b973c3-1eec-48d5-2a37-a270b60cfd00/public');
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    
+    .cta-button {
+        background: var(--gradient-accent);
+        color: var(--white);
+        padding: 18px 35px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 2rem;
+        box-shadow: var(--shadow-medium);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-heavy);
+        filter: brightness(1.1);
+    }
+    
+    /* Services Section */
+    .services {
+        padding: 100px 0;
+        background: var(--light-gray);
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        position: relative;
+        font-weight: 700;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: var(--gradient-accent);
+        border-radius: 2px;
+    }
+    
+    .section-subtitle {
+        text-align: center;
+        font-size: 1.2rem;
+        color: var(--medium-gray);
+        max-width: 800px;
+        margin: 2rem auto 0;
+        font-weight: 300;
+    }
+    
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2.5rem;
+        margin-top: 5rem;
+    }
+    
+    .service-card {
+        background: var(--white);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow-light);
+        transition: all 0.4s ease;
+        border: 1px solid rgba(44, 85, 48, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: var(--gradient-accent);
+    }
+    
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-heavy);
+        border-color: var(--accent-color);
+    }
+    
+    .service-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 16px;
+        background: var(--gradient-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow-light);
+    }
+    
+    .service-card h3 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+    
+    .service-card p {
+        line-height: 1.7;
+        color: var(--medium-gray);
+    }
+    
+    /* Process Section */
+    .process {
+        padding: 100px 0;
+        background: var(--white);
+    }
+    
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+        margin-top: 5rem;
+    }
+    
+    .step {
+        text-align: center;
+        position: relative;
+        padding: 2rem;
+    }
+    
+    .step-number {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin: 0 auto 2rem;
+        box-shadow: var(--shadow-medium);
+        position: relative;
+    }
+    
+    .step-number::after {
+        content: '';
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        background: var(--gradient-accent);
+        z-index: -1;
+        opacity: 0.2;
+    }
+    
+    .step h3 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+    
+    .step p {
+        color: var(--medium-gray);
+        line-height: 1.7;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+        padding: 100px 0;
+        background: linear-gradient(135deg, var(--light-gray) 0%, #e9ecef 100%);
+    }
+    
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2.5rem;
+        margin-top: 5rem;
+    }
+    
+    .testimonial {
+        background: var(--white);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow-light);
+        position: relative;
+        border: 1px solid rgba(44, 85, 48, 0.1);
+    }
+    
+    .testimonial::before {
+        content: '"';
+        position: absolute;
+        top: -15px;
+        left: 25px;
+        font-size: 5rem;
+        color: var(--accent-color);
+        line-height: 1;
+        font-family: serif;
+    }
+    
+    .testimonial-text {
+        font-style: italic;
+        margin-bottom: 2rem;
+        color: var(--medium-gray);
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+    
+    .testimonial-author {
+        font-weight: 600;
+        color: var(--primary-color);
+        font-size: 1.1rem;
+    }
+    
+    .testimonial-role {
+        color: var(--medium-gray);
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Gallery */
+    .gallery {
+        padding: 100px 0;
+        background: var(--white);
+    }
+    
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 5rem;
+    }
+    
+    .gallery-item {
+        background: var(--light-gray);
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .gallery-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--gradient-primary);
+        opacity: 0;
+        transition: all 0.4s ease;
+        z-index: 1;
+    }
+    
+    .gallery-item:hover::before {
+        opacity: 0.05;
+    }
+    
+    .gallery-item:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-medium);
+    }
+    
+    .gallery-item>* {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .gallery-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 16px;
+        background: var(--gradient-primary);
+        margin: 0 auto 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-light);
+    }
+    
+    .gallery-image .img2 {
+        width: 150px; 
+        height: 130px;
+    }
+    
+    .gallery-item h3 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    .gallery-item p {
+        color: var(--medium-gray);
+        line-height: 1.6;
+    }
+    
+    /* Team */
+    .team {
+        padding: 100px 0;
+        background: var(--light-gray);
+    }
+    
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2.5rem;
+        margin-top: 5rem;
+    }
+    
+    .team-member {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        box-shadow: var(--shadow-light);
+        transition: all 0.4s ease;
+        border: 1px solid rgba(44, 85, 48, 0.1);
+    }
+    
+    .team-member:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-heavy);
+    }
+    
+    .team-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        margin: 0 auto 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 2.5rem;
+        font-weight: 700;
+        box-shadow: var(--shadow-medium);
+    }
+    
+    .team-avatar .persons {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+    }
+    
+    .team-member h3 {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    .team-member p {
+        color: var(--medium-gray);
+    }
+    
+    /* Contact */
+    .contact {
+        padding: 100px 0;
+        background: var(--white);
+    }
+    
+    .contact-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-top: 5rem;
+    }
+    
+    .contact-form {
+        background: var(--light-gray);
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow-light);
+    }
+    
+    .contact-form h3 {
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+    
+    .form-group {
+        margin-bottom: 2rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.8rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: var(--white);
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(127, 176, 105, 0.1);
+    }
+    
+    .contact-info {
+        padding: 2rem;
+    }
+    
+    .contact-info h3 {
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+    
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: var(--light-gray);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .contact-item:hover {
+        background: var(--light-green);
+        transform: translateX(5px);
+    }
+    
+    .contact-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.5rem;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        box-shadow: var(--shadow-light);
+    }
+    
+    .contact-details strong {
+        color: var(--primary-color);
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    
+    /* Footer */
+    footer {
+        background: var(--primary-color);
+        color: var(--white);
+        padding: 4rem 0 2rem;
+    }
+    
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 3rem;
+        margin-bottom: 3rem;
+    }
+    
+    .footer-section h3 {
+        color: var(--light-green);
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    .footer-section p {
+        line-height: 1.7;
+        opacity: 0.9;
+    }
+    
+    .footer-section ul {
+        list-style: none;
+    }
+    
+    .footer-section ul li {
+        padding: 0.5rem 0;
+        opacity: 0.9;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        opacity: 0.8;
+    }
+    
+    /* Chat Button */
+    .chat-button {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+        background: var(--gradient-accent);
+        color: var(--white);
+        border: none;
+        padding: 18px 25px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: var(--shadow-heavy);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1rem;
+    }
+    
+    .chat-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 133, 0, 0.4);
+    }
+    
+    /* Responsive Design - Actualizado completamente */
+    @media (max-width: 768px) {
+        .mobile-menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        nav ul {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            right: 20px;
+            background: rgba(44, 85, 48, 0.98);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            gap: 5px;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow-heavy);
+            z-index: 999;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+        
+        nav ul.show {
+            display: flex;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        nav li {
+            width: 100%;
+        }
+        
+        nav a {
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 100%;
+            display: block;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        nav a.active {
+            background: var(--gradient-accent);
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+        }
+        
+        .hero .tagline,
+        .hero .subtitle {
+            font-size: 1.2rem;
+        }
+        
+        .contact-content {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+        
+        .header-content {
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .services-grid,
+        .gallery-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .process-steps {
+            grid-template-columns: 1fr;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+        }
+    }
+    
+    /* Animaciones adicionales */
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-on-scroll {
+        animation: fadeInUp 0.8s ease-out;
+    }
+    
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Loading Animation */
+    .loading {
+        opacity: 0;
+        transition: opacity 0.6s ease-in-out;
+    }
+    
+    .loaded {
+        opacity: 1;
+    }
+</style>
+</head>
+
+<body class="loading">
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo-icon"><img src="" alt="" /></div>
+                    <div class="logo-text">
+                        <div class="brand-name">GrapSán</div>
+                        <div class="brand-subtitle">Administración DEMO</div>
+                    </div>
+                </div>
+                
+                <div class="nav-container">
+                    <nav>
+                        <ul id="nav-menu">
+                            <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                            <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                            <li><a href="#proceso" class="nav-link">Proceso</a></li>
+                            <li><a href="#testimonios" class="nav-link">Testimonios</a></li>
+                            <li><a href="#equipo" class="nav-link">Equipo</a></li>
+                            <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                        </ul>
+                    </nav>
+                    <button class="mobile-menu-btn" id="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>GrapSán DEMO</h1>
+                <p class="tagline">"Versión de Demostración - Gestión Profesional de Condominios"</p>
+                <p class="subtitle">Descubra Nuestros Servicios de Administración Condominal</p>
+                
+                <div class="company-logo">
+                    <div class="company-logo-icon"></div>
+                    <div>
+                        <strong>VERSIÓN DEMO</strong><br>
+                        <small>Presentación para Cliente Potencial</small>
+                    </div>
+                </div>
+                
+                <p style="margin: 2rem 0; font-size: 1.2rem; max-width: 900px; margin-left: auto; margin-right: auto; line-height: 1.8;">
+                    Esta es una versión de demostración de nuestro sitio web para GrapSán Administración. Explore nuestros servicios integrales de administración condominal diseñados para brindar tranquilidad y profesionalismo a su comunidad.
+                </p>
+                <a href="#contacto" class="cta-button">Ver Propuesta Completa</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section id="servicios" class="services">
+        <div class="container">
+            <h2 class="section-title">Servicios Principales</h2>
+            <p class="section-subtitle">
+                Soluciones Integrales para la Administración de su Condominio</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-building" style="color: white; font-size: 2rem;"></i>
+                    </div>
+                    <h3>Administración Integral</h3>
+                    <p>Gestión completa de recursos, finanzas y operaciones diarias del condominio con total transparencia y eficiencia profesional.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-tools" style="color: white; font-size: 2rem;"></i>
+                    </div>
+                    <h3>Mantenimiento Preventivo</h3>
+                    <p>Programas de mantenimiento sistemático para preservar el valor de su propiedad y evitar reparaciones costosas futuras.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line" style="color: white; font-size: 2rem;"></i>
+                    </div>
+                    <h3>Control Financiero</h3>
+                    <p>Gestión transparente de presupuestos, estados financieros y reportes detallados para mantener informados a todos los propietarios.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt" style="color: white; font-size: 2rem;"></i>
+                    </div>
+                    <h3>Seguridad y Vigilancia</h3>
+                    <p>Implementación de protocolos de seguridad y supervisión de sistemas de vigilancia para garantizar la tranquilidad de los residentes.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-users" style="color: white; font-size: 2rem;"></i>
+                    </div>
+                    <h3>Gestión de Reuniones</h3>
+                    <p>Organización de asambleas, toma de acuerdos y seguimiento de decisiones importantes para el funcionamiento del condominio.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-phone-alt" style="color: white; font-size: 2rem;"></i>
+                    </div>
+                    <h3>Atención 24/7</h3>
+                    <p>Servicio de atención continua para emergencias y consultas, garantizando respuesta rápida ante cualquier situación.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Process Section -->
+    <section id="proceso" class="process">
+        <div class="container">
+            <h2 class="section-title">Proceso de Implementación</h2>
+            <p class="section-subtitle">
+                Metodología Probada para la Transición Exitosa
+            </p>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <h3>Evaluación Inicial</h3>
+                    <p>Realizamos un diagnóstico completo de la situación actual del condominio, identificando áreas de mejora y necesidades específicas.</p>
+                    <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #D6EAD0, #7FB069); border-radius: 15px; margin-top: 1rem; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: #2C5530;"></i>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <h3>Plan Personalizado</h3>
+                    <p>Desarrollamos una estrategia adaptada a las características y necesidades particulares de su condominio y comunidad.</p>
+                    <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #D6EAD0, #7FB069); border-radius: 15px; margin-top: 1rem; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-clipboard-list" style="font-size: 3rem; color: #2C5530;"></i>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <h3>Implementación Gradual</h3>
+                    <p>Ejecutamos el plan de manera progresiva, asegurando una transición suave y la adaptación exitosa de todos los procesos.</p>
+                    <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #D6EAD0, #7FB069); border-radius: 15px; margin-top: 1rem; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-cogs" style="font-size: 3rem; color: #2C5530;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section id="testimonios" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Testimonios de Referencia</h2>
+            <p class="section-subtitle">Experiencias de Clientes Satisfechos</p>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p class="testimonial-text">
+                        Desde que contratamos los servicios de administración profesional, hemos notado una mejora significativa en la organización y el mantenimiento de nuestro condominio. La transparencia en el manejo de recursos es ejemplar.
+                    </p>
+                    <div class="testimonial-author">María Elena R.</div>
+                    <div class="testimonial-role">Presidenta del Comité</div>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-text">
+                        La gestión profesional ha transformado completamente la dinámica de nuestro condominio. Los reportes financieros son claros y las mejoras en infraestructura han sido notables.
+                    </p>
+                    <div class="testimonial-author">Roberto S.</div>
+                    <div class="testimonial-role">Propietario</div>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-text">
+                        El nivel de profesionalismo y atención al detalle que recibimos es excepcional. Finalmente tenemos la tranquilidad de saber que nuestro condominio está en buenas manos.
+                    </p>
+                    <div class="testimonial-author">Ana Patricia L.</div>
+                    <div class="testimonial-role">Residente</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Gallery Section -->
+    <section class="gallery">
+        <div class="container">
+            <h2 class="section-title">Áreas de Impacto</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <i class="fas fa-home" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Áreas Comunes</h3>
+                    <p>Mantenimiento y embellecimiento de espacios compartidos para el disfrute de toda la comunidad.</p>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <i class="fas fa-swimming-pool" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Instalaciones Recreativas</h3>
+                    <p>Gestión y mantenimiento de albercas, jardines y áreas de esparcimiento familiar.</p>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <i class="fas fa-car" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Estacionamientos</h3>
+                    <p>Organización y mantenimiento de áreas de estacionamiento y control de accesos vehiculares.</p>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <i class="fas fa-leaf" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Jardines y Paisajismo</h3>
+                    <p>Cuidado profesional de áreas verdes y mantenimiento del paisajismo exterior.</p>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <i class="fas fa-dumbbell" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Gimnasio y Spa</h3>
+                    <p>Supervisión y mantenimiento de equipos de ejercicio y áreas de bienestar.</p>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <i class="fas fa-video" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Sistemas de Seguridad</h3>
+                    <p>Gestión de circuitos cerrados y sistemas de monitoreo para seguridad integral.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Team Section -->
+    <section id="equipo" class="team">
+        <div class="container">
+            <h2 class="section-title">Equipo Profesional</h2>
+            <p class="section-subtitle">Personal Capacitado y Experimentado</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-tie" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Coordinador General</h3>
+                    <p>Supervisión integral de operaciones y gestión estratégica del condominio.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-avatar">
+                        <i class="fas fa-calculator" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Administrador Financiero</h3>
+                    <p>Control de presupuestos, reportes contables y gestión de recursos económicos.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-avatar">
+                        <i class="fas fa-headset" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Atención al Cliente</h3>
+                    <p>Servicio directo a residentes y gestión de solicitudes y consultas diarias.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <h2 class="section-title">Solicite una Propuesta</h2>
+            <p class="section-subtitle">
+                Esta es una versión de demostración. Para conocer más detalles sobre nuestros servicios reales 
+                y recibir una propuesta personalizada, complete el siguiente formulario.
+            </p>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3>Formulario de Interés</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="nombre">Nombre del Interesado</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo de Contacto</label>
+                            <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" placeholder="(55) 1234-5678" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="condominio">Nombre del Condominio</label>
+                            <input type="text" id="condominio" name="condominio" placeholder="Nombre de su condominio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mensaje">Detalles del Proyecto</label>
+                            <textarea id="mensaje" name="mensaje" rows="4" placeholder="Describa las necesidades de su condominio..." required></textarea>
+                        </div>
+                        <button type="submit" class="cta-button">Solicitar Propuesta Real</button>
+                    </form>
+                </div>
+                
+                <div class="contact-info">
+                    <h3>Información de Contacto Demo</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <strong>Teléfono de Demostración</strong>
+                            <p>(Demo) 55 1234 5678<br>(Demo) 55 8765 4321</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <strong>Email Demo</strong>
+                            <p>demo@grapsan.com<br>contacto.demo@grapsan.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <strong>Oficina Demo</strong>
+                            <p>Dirección de Demostración<br>Ciudad de México<br>CP. 00000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <strong>Horarios de Atención</strong>
+                            <p>Lun - Vie: 9:00am - 6:00pm<br>Sábados: 10:00am - 2:00pm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo-container">
+                        <div class="logo-icon"></div>
+                        <div class="logo-text">
+                            <div class="brand-name">GrapSán</div>
+                            <div class="brand-subtitle">Administración DEMO</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem;">
+                        Esta es una versión de demostración del sitio web para GrapSán Administración. 
+                        Mostramos las capacidades y el diseño propuesto para sus servicios de administración condominal.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Propuesta de Valor</h3>
+                    <p>Ofrecemos un sitio web profesional y moderno que refleje la calidad de sus servicios de administración condominal, con diseño responsivo y funcionalidades que faciliten la comunicación con sus clientes potenciales.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Características Demo</h3>
+                    <ul>
+                        <li>Diseño moderno y profesional</li>
+                        <li>Navegación intuitiva</li>
+                        <li>Optimizado para móviles</li>
+                        <li>Formularios de contacto</li>
+                        <li>Galería de servicios</li>
+                        <li>Sección de testimonios</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Próximos Pasos</h3>
+                    <ul>
+                        <li>Personalización con contenido real</li>
+                        <li>Integración de imágenes propias</li>
+                        <li>Configuración de dominio</li>
+                        <li>Optimización SEO</li>
+                        <li>Capacitación para manejo</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GrapSán Administración - Versión Demo | Desarrollado para Presentación</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Demo Badge -->
+    
+    <!-- Chat Button -->
+    <button class="chat-button">
+        <i class="fas fa-comments"></i>
+        ¿Preguntas sobre el demo?
+    </button>
+    
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Navigation active state
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const offsetTop = targetSection.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+                
+                // Close mobile menu if open
+                navMenu.classList.remove('show');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+        
+        // Form submission
+        const contactForm = document.querySelector('.contact-form form');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('¡Gracias por su interés en nuestra propuesta! Este es un formulario de demostración. Para el sitio real, implementaremos un sistema de contacto funcional.');
+            contactForm.reset();
+        });
+        
+        // Chat button functionality
+        const chatButton = document.querySelector('.chat-button');
+        chatButton.addEventListener('click', () => {
+            alert('¡Hola! Esta es la versión demo del sitio web para GrapSán Administración. ¿Qué le parece el diseño y las funcionalidades mostradas?');
+        });
+        
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(44, 85, 48, 0.98)';
+                header.style.boxShadow = '0 4px 20px rgba(44, 85, 48, 0.15)';
+            } else {
+                header.style.background = 'rgba(44, 85, 48, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+        
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.service-card, .step, .testimonial, .gallery-item, .team-member');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    if (!element.classList.contains('animate-on-scroll')) {
+                        element.classList.add('animate-on-scroll');
+                    }
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', animateOnScroll);
+        
+        // Page loaded
+        window.addEventListener('load', () => {
+            document.body.classList.remove('loading');
+            document.body.classList.add('loaded');
+            animateOnScroll();
+            
+            // Show demo welcome message
+            setTimeout(() => {
+                if(confirm('¡Bienvenido a la versión DEMO de GrapSán Administración!\n\n¿Le gustaría hacer un recorrido rápido por las principales secciones del sitio?')) {
+                    // Auto scroll to services
+                    document.getElementById('servicios').scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 2000);
+        });
+        
+        // CTA button smooth scroll
+        const ctaButton = document.querySelector('.cta-button');
+        ctaButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const contactSection = document.getElementById('contacto');
+            const offsetTop = contactSection.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Demo features highlight
+        function highlightDemoFeatures() {
+            const features = [
+                'Diseño responsivo y moderno',
+                'Navegación fluida entre secciones', 
+                'Formularios interactivos',
+                'Galería de servicios visual',
+                'Testimonios de referencia',
+                'Información de contacto organizada'
+            ];
+            
+            console.log('Características Demo:', features);
+        }
+        
+        highlightDemoFeatures();
+    </script>
+</body>
+
+</html>
